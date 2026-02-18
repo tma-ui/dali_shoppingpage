@@ -294,22 +294,24 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 90px}
 .empty .ico{font-size:3.5rem;margin-bottom:12px}
 
 /* OVERLAY */
-.overlay{display:none;position:fixed;inset:0;background:rgba(20,0,40,.65);backdrop-filter:blur(10px);z-index:500;align-items:flex-end;justify-content:center}
+.overlay{display:none;position:fixed;inset:0;background:rgba(20,0,40,.65);backdrop-filter:blur(10px);z-index:500;align-items:flex-end;justify-content:center;overflow:hidden}
 .overlay.open{display:flex}
 .sheet{
   background:#fff;border-radius:28px 28px 0 0;
-  width:100%;max-width:560px;max-height:92vh;overflow-y:auto;
+  width:100%;max-width:560px;max-height:92vh;overflow-y:auto;overflow-x:hidden;
   position:relative;animation:slideup .28s cubic-bezier(.22,1,.36,1);
+  word-break:break-word;
 }
 @keyframes slideup{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
 .sheet-pic{
-  width:100%;height:270px;overflow:hidden;
+  width:100%;height:220px;overflow:hidden;
   background:linear-gradient(135deg,#f7f0ff,#ede0f8);
   display:flex;align-items:center;justify-content:center;position:relative;
+  flex-shrink:0;
 }
-.sheet-pic img{width:100%;height:100%;object-fit:cover}
-.sheet-pic .em{font-size:7rem}
-.sheet-pic-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,0,48,.4) 0%,transparent 55%);pointer-events:none}
+.sheet-pic img{width:100%;height:100%;object-fit:contain;background:#f7f0ff}
+.sheet-pic .em{font-size:6rem}
+.sheet-pic-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,0,48,.3) 0%,transparent 55%);pointer-events:none}
 .close-btn{
   position:absolute;top:14px;right:14px;
   background:rgba(255,255,255,.92);border:none;
@@ -318,7 +320,11 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 90px}
   box-shadow:0 3px 16px rgba(0,0,0,.2);z-index:10;transition:all .18s;
 }
 .close-btn:hover{background:#fff;transform:scale(1.08)}
-.sheet-body{padding:24px 26px 42px}
+.sheet-body{
+  padding:20px 22px 40px;
+  width:100%;box-sizing:border-box;
+  overflow-wrap:break-word;word-wrap:break-word;
+}
 .sheet-chips{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .s-cat{
   font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
@@ -337,17 +343,18 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 90px}
 }
 .sheet-name{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.7rem;font-weight:700;
-  color:var(--dark);line-height:1.2;margin-bottom:6px;
+  font-size:clamp(1.3rem,5vw,1.6rem);font-weight:700;
+  color:var(--dark);line-height:1.25;margin-bottom:6px;
+  word-break:break-word;
 }
 .sheet-price{
-  font-size:1.85rem;font-weight:800;
-  color:var(--v2);margin-bottom:18px;
+  font-size:clamp(1.4rem,5vw,1.75rem);font-weight:800;
+  color:var(--v2);margin-bottom:16px;
   font-family:'Outfit',sans-serif;
 }
 .divider{border:none;border-top:1px solid #f0e8fa;margin:14px 0}
 .s-label{font-size:.64rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;font-family:'Outfit',sans-serif}
-.s-desc{font-size:.9rem;color:var(--mid);line-height:1.8;font-weight:300}
+.s-desc{font-size:.9rem;color:var(--mid);line-height:1.8;font-weight:300;white-space:normal;overflow-wrap:break-word}
 .s-why{
   margin-top:18px;padding:16px 18px;border-radius:16px;
   background:linear-gradient(135deg,#fdf8e8,#fef4d4);
@@ -358,11 +365,21 @@ main{max-width:980px;margin:0 auto;padding:28px 16px 90px}
 .s-why-text{font-size:.88rem;color:var(--dark);line-height:1.7;font-weight:300}
 
 /* RESPONSIVE */
-@media(max-width:400px){
-  .brand-text .t1{font-size:1.2rem;letter-spacing:2px}
+@media(max-width:600px){
   .brand-text .t2{display:none}
-  .nav-inner{gap:10px;padding:0 12px}
-  .brand-logo{width:42px;height:42px}
+  .searchbar input::placeholder{font-size:.78rem}
+}
+@media(max-width:480px){
+  .nav-inner{gap:8px;padding:0 10px}
+  .brand-logo{width:40px;height:40px;flex-shrink:0}
+  .brand-text .t1{font-size:1.1rem;letter-spacing:2px}
+  .brand-text .t2{display:none}
+  .searchbar{padding:0 10px;height:38px;min-width:0}
+  .searchbar input{font-size:.78rem;min-width:0}
+}
+@media(max-width:360px){
+  .brand-text{display:none}
+  .nav-inner{gap:8px;padding:0 10px}
 }
 </style>
 </head>
@@ -648,6 +665,14 @@ function bgClose(e){
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+
+function updatePlaceholder(){
+  const inp = document.getElementById('searchInput');
+  if(!inp) return;
+  inp.placeholder = window.innerWidth < 480 ? 'Search…' : 'Search products…';
+}
+updatePlaceholder();
+window.addEventListener('resize', updatePlaceholder);
 init();
 </script>
 </body>
