@@ -686,6 +686,94 @@ main{max-width:980px;margin:0 auto;padding:20px 12px 80px;width:100%}
 /* hide old pc-remove for non-admin */
 .pc-remove{display:none!important}
 
+
+/* ── CATEGORY MANAGER ── */
+.catmgr-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(20,0,40,.75);backdrop-filter:blur(12px);
+  z-index:680;align-items:center;justify-content:center;padding:16px;
+}
+.catmgr-overlay.open{display:flex}
+.catmgr-modal{
+  background:#fff;border-radius:24px;
+  width:100%;max-width:440px;max-height:88vh;
+  overflow-y:auto;overflow-x:hidden;
+  animation:slideup .28s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 20px 60px rgba(44,0,82,.35);
+}
+.catmgr-header{
+  padding:20px 20px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:#fff;z-index:2;
+  border-bottom:1px solid var(--v5);
+}
+.catmgr-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--dark)}
+.catmgr-close{
+  background:var(--v5);border:none;width:34px;height:34px;border-radius:50%;
+  cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;
+  color:var(--v2);transition:all .18s;flex-shrink:0;
+}
+.catmgr-close:hover{background:var(--v2);color:#fff}
+.catmgr-body{padding:18px 20px 28px;display:flex;flex-direction:column;gap:16px}
+
+/* existing category list */
+.cat-list{display:flex;flex-direction:column;gap:8px}
+.cat-list-label{
+  font-size:.68rem;font-weight:700;color:var(--gray);
+  text-transform:uppercase;letter-spacing:1px;
+  font-family:'Outfit',sans-serif;margin-bottom:2px;
+}
+.cat-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--v6);border:1.5px solid var(--v5);
+  border-radius:12px;padding:10px 14px;
+}
+.cat-item-emoji{font-size:1.2rem;flex-shrink:0}
+.cat-item-name{font-size:.88rem;font-weight:600;color:var(--dark);flex:1;font-family:'Outfit',sans-serif}
+.cat-item-count{font-size:.72rem;color:var(--gray);font-family:'Outfit',sans-serif;flex-shrink:0}
+.cat-item-del{
+  background:rgba(192,57,43,.12);border:none;color:#c0392b;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;transition:all .18s;flex-shrink:0;
+}
+.cat-item-del:hover{background:rgba(192,57,43,.9);color:#fff}
+.cat-item-del.locked{background:rgba(180,180,180,.15);color:#bbb;cursor:not-allowed}
+.cat-item-del.locked:hover{background:rgba(180,180,180,.15);color:#bbb}
+
+/* divider */
+.catmgr-divider{border:none;border-top:1.5px solid var(--v5)}
+
+/* new category form */
+.new-cat-form{display:flex;flex-direction:column;gap:12px}
+.new-cat-form-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-weight:700;color:var(--dark);
+}
+.emoji-row{display:flex;align-items:center;gap:10px}
+.emoji-input{
+  width:60px;height:44px;border:1.5px solid #e8daf4;border-radius:12px;
+  text-align:center;font-size:1.4rem;outline:none;
+  transition:border-color .2s;cursor:pointer;background:#fff;
+  font-family:'Outfit',sans-serif;
+}
+.emoji-input:focus{border-color:var(--v2);box-shadow:0 0 0 3px rgba(91,13,138,.1)}
+.emoji-hint{font-size:.72rem;color:var(--gray);font-family:'Outfit',sans-serif;line-height:1.4}
+
+.catmgr-add-btn{
+  width:100%;padding:12px;border-radius:14px;
+  background:linear-gradient(135deg,var(--v2),var(--v3));
+  border:none;color:#fff;font-family:'Outfit',sans-serif;
+  font-size:.92rem;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 20px rgba(91,13,138,.25);
+  transition:transform .18s,box-shadow .18s;
+}
+.catmgr-add-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(91,13,138,.35)}
+.catmgr-error{color:#c0392b;font-size:.78rem;font-weight:600;display:none;font-family:'Outfit',sans-serif}
+
+/* dynamic tab chip colors */
+.chip.custom-cat{background:#f3e5f5;color:#6a1194}
+
 </style>
 </head>
 <body>
@@ -703,7 +791,10 @@ main{max-width:980px;margin:0 auto;padding:20px 12px 80px;width:100%}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       <input type="text" id="searchInput" placeholder="Search products…" oninput="doSearch()"/>
     </div>
-    <button class="settings-btn" id="settingsBtn" onclick="openPwModal()" title="Admin Settings">⚙</button>
+    <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
+      <button class="settings-btn" id="settingsBtn" onclick="openPwModal()" title="Admin Settings">⚙</button>
+      <button class="settings-btn" id="catMgrBtn" onclick="openCatMgr()" title="Manage Categories" style="display:none;font-size:.85rem;width:38px;height:38px;">🗂</button>
+    </div>
   </div>
 </nav>
 <div class="admin-bar" id="adminBar">
@@ -861,6 +952,13 @@ const grocery  = bestSellers.filter(p=>p.cat==='Grocery');
 const frozen   = bestSellers.filter(p=>p.cat==='Frozen');
 const map = {};
 [...beverages,...bestSellers].forEach(p=>map[p.id]=p);
+
+// Built-in categories (protected, can't be deleted)
+const BUILTIN_CATS = ['Beverages','Grocery','Frozen','Best Sellers'];
+// Custom categories added by admin
+const customCategories = []; // {id, name, emoji, products:[]}
+// Registry: catId -> products array (for custom cats)
+const customCatData = {};
 
 function pic(p,size){
   const fs = size==='bs' ? '2.8rem' : '2.4rem';
@@ -1070,24 +1168,27 @@ function submitNewProduct(){
 
   // Give best sellers a rank label
   if(cat==='Best Sellers'){
-    newProduct.rank = null; // no number rank, shows ★
+    newProduct.rank = null;
     newProduct.why = desc || 'A customer favourite at DALI Everyday Grocery!';
   }
 
-  // Add to the right array + map
-  if(cat==='Beverages') beverages.unshift(newProduct);
-  else if(cat==='Grocery') grocery.unshift(newProduct);
-  else if(cat==='Frozen') frozen.unshift(newProduct);
-  else if(cat==='Best Sellers') bestSellers.unshift(newProduct);
+  const arr = getArrayForCat(cat);
+  if(arr) arr.unshift(newProduct);
   map[id] = newProduct;
 
   rerenderAll();
   closeAddModal();
 
   // Navigate to the right tab
-  const tabMap = {'Beverages':'beverages','Grocery':'grocery','Frozen':'frozen','Best Sellers':'bestseller'};
-  const tabBtn = document.querySelector(`.tabitem[onclick*="'${tabMap[cat]}'"]`);
-  if(tabBtn) switchTab(tabMap[cat], tabBtn);
+  const builtinTabMap = {'Beverages':'beverages','Grocery':'grocery','Frozen':'frozen','Best Sellers':'bestseller'};
+  if(builtinTabMap[cat]){
+    const tabBtn = document.querySelector(`.tabitem[onclick*="'${builtinTabMap[cat]}'"]`);
+    if(tabBtn) switchTab(builtinTabMap[cat], tabBtn);
+  } else {
+    // custom category tab
+    const tabBtn = document.querySelector(`.tabitem[onclick*="'cat-${cat}'"]`);
+    if(tabBtn) switchTab('cat-'+cat, tabBtn);
+  }
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -1123,6 +1224,12 @@ function rerenderAll(){
   render('g-bev',    beverages,   prodCard);
   render('g-groc',   grocery,     prodCard);
   render('g-frz',    frozen,      prodCard);
+  // render custom category grids
+  customCategories.forEach(c=>{
+    const arr = customCatData[c.id]||[];
+    render('g-cat-'+c.id, arr, prodCard);
+    render('home-cat-'+c.id, arr, prodCard);
+  });
 }
 
 
@@ -1163,6 +1270,7 @@ function checkPassword(){
     document.getElementById('adminBar').classList.add('show');
     document.getElementById('settingsBtn').classList.add('active');
     document.getElementById('settingsBtn').textContent='🔓';
+    document.getElementById('catMgrBtn').style.display='flex';
     closePwModal();
     document.body.style.overflow='';
   } else {
@@ -1177,6 +1285,7 @@ function logoutAdmin(){
   document.getElementById('adminBar').classList.remove('show');
   document.getElementById('settingsBtn').classList.remove('active');
   document.getElementById('settingsBtn').textContent='⚙';
+  document.getElementById('catMgrBtn').style.display='none';
 }
 
 // ── REMOVE (all products) ─────────────────────────────────────────────
@@ -1253,10 +1362,9 @@ function submitEdit(){
 
   // If category changed, move between arrays
   if(oldCat !== cat){
-    const arrays = {'Beverages':beverages,'Grocery':grocery,'Frozen':frozen,'Best Sellers':bestSellers};
-    const oldArr = arrays[oldCat];
+    const oldArr = getArrayForCat(oldCat);
     if(oldArr){ const i=oldArr.findIndex(x=>x.id===editingId); if(i>-1) oldArr.splice(i,1); }
-    const newArr = arrays[cat];
+    const newArr = getArrayForCat(cat);
     if(newArr) newArr.unshift(p);
   }
 
@@ -1269,6 +1377,198 @@ function submitEdit(){
 
   rerenderAll();
   closeEditModal();
+}
+
+
+// ── CATEGORY MANAGER ─────────────────────────────────────────────────
+function openCatMgr(){
+  if(!adminMode) return;
+  renderCatList();
+  populateCatDropdowns();
+  document.getElementById('catMgrOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCatMgr(){
+  document.getElementById('catMgrOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('newCatName').value='';
+  document.getElementById('newCatEmoji').value='';
+  document.getElementById('catMgrError').style.display='none';
+}
+function catMgrBgClose(e){
+  if(e.target===document.getElementById('catMgrOverlay')) closeCatMgr();
+}
+
+function renderCatList(){
+  const list = document.getElementById('catList');
+  // built-ins
+  const builtins = [
+    {name:'Beverages', emoji:'💧', arr:beverages},
+    {name:'Grocery',   emoji:'🛒', arr:grocery},
+    {name:'Frozen',    emoji:'❄️', arr:frozen},
+    {name:'Best Sellers', emoji:'🏆', arr:bestSellers},
+  ];
+  let html = builtins.map(c=>`
+    <div class="cat-item">
+      <span class="cat-item-emoji">${c.emoji}</span>
+      <span class="cat-item-name">${c.name}</span>
+      <span class="cat-item-count">${c.arr.length} items</span>
+      <button class="cat-item-del locked" title="Built-in category">🔒</button>
+    </div>`).join('');
+
+  // custom
+  customCategories.forEach(c=>{
+    const count = (customCatData[c.id]||[]).length;
+    html += `
+    <div class="cat-item">
+      <span class="cat-item-emoji">${c.emoji}</span>
+      <span class="cat-item-name">${c.name}</span>
+      <span class="cat-item-count">${count} items</span>
+      <button class="cat-item-del" title="Delete category" onclick="deleteCategory('${c.id}')">✕</button>
+    </div>`;
+  });
+  list.innerHTML = html;
+}
+
+function populateCatDropdowns(){
+  // Update all <select id="newCat"> and <select id="editCat"> with custom cats
+  ['newCat','editCat'].forEach(selId=>{
+    const sel = document.getElementById(selId);
+    if(!sel) return;
+    // Remove old custom options
+    Array.from(sel.options).forEach(o=>{ if(o.dataset.custom) sel.removeChild(o); });
+    // Add fresh
+    customCategories.forEach(c=>{
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.emoji + ' ' + c.name;
+      opt.dataset.custom = '1';
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function addNewCategory(){
+  const rawName = document.getElementById('newCatName').value.trim();
+  const emoji   = document.getElementById('newCatEmoji').value.trim() || '🏷';
+  const errEl   = document.getElementById('catMgrError');
+
+  if(!rawName){ errEl.textContent='⚠ Please enter a category name.'; errEl.style.display='block'; return; }
+
+  // Check duplicate
+  const allNames = ['Beverages','Grocery','Frozen','Best Sellers',...customCategories.map(c=>c.name.toLowerCase())];
+  if(allNames.includes(rawName.toLowerCase())){
+    errEl.textContent='⚠ A category with that name already exists.'; errEl.style.display='block'; return;
+  }
+  errEl.style.display='none';
+
+  // Create a safe id from name
+  const id = 'cat_' + rawName.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'').toLowerCase() + '_' + Date.now();
+
+  const newCat = {id, name:rawName, emoji};
+  customCategories.push(newCat);
+  customCatData[id] = [];
+
+  // Add tab button
+  addCategoryTab(newCat);
+  // Add page
+  addCategoryPage(newCat);
+  // Update dropdowns
+  populateCatDropdowns();
+  // Re-render list
+  renderCatList();
+  // Add chip style
+  addCatChipStyle(id, rawName);
+
+  document.getElementById('newCatName').value='';
+  document.getElementById('newCatEmoji').value='';
+
+  // Show success
+  errEl.style.cssText='color:#1a6b34;font-size:.78rem;font-weight:600;display:block;font-family:Outfit,sans-serif';
+  errEl.textContent='✓ Category "'+rawName+'" created!';
+  setTimeout(()=>{errEl.style.display='none'; errEl.style.cssText='';},2500);
+}
+
+function addCategoryTab(cat){
+  const tabInner = document.querySelector('.tabbar-inner');
+  const btn = document.createElement('button');
+  btn.className = 'tabitem';
+  btn.dataset.catid = cat.id;
+  btn.onclick = function(){ switchTab('cat-'+cat.id, this); };
+  btn.textContent = cat.emoji + ' ' + cat.name;
+  tabInner.appendChild(btn);
+}
+
+function addCategoryPage(cat){
+  const main = document.querySelector('main');
+  // Full page
+  const page = document.createElement('div');
+  page.className = 'page';
+  page.id = 'page-cat-'+cat.id;
+  page.innerHTML = `
+    <div class="stitle">${cat.emoji} ${cat.name}</div>
+    <div class="grid" id="g-cat-${cat.id}"></div>
+    <div class="empty" id="empty-cat-${cat.id}" style="display:none">
+      <div class="ico">${cat.emoji}</div>
+      <p>No products yet. Add some using the + button!</p>
+    </div>`;
+  main.insertBefore(page, document.getElementById('page-search'));
+
+  // Home section
+  const homePage = document.getElementById('page-all');
+  const section = document.createElement('div');
+  section.id = 'home-cat-section-'+cat.id;
+  section.innerHTML = `
+    <div class="stitle mt">${cat.emoji} ${cat.name}<button class="stitle-link" onclick="switchTabById('cat-${cat.id}')">See All →</button></div>
+    <div class="grid" id="home-cat-${cat.id}"></div>`;
+  // Insert before the search page but in home page
+  const frozenGrid = document.getElementById('home-frz');
+  frozenGrid.parentElement.after(section);
+}
+
+function addCatChipStyle(id, name){
+  const style = document.createElement('style');
+  // Use cat id for chip class since name may have spaces
+  style.textContent = `.chip.${CSS.escape(id)}{background:#f3e5f5;color:#6a1194}`;
+  document.head.appendChild(style);
+}
+
+function deleteCategory(id){
+  const cat = customCategories.find(c=>c.id===id);
+  if(!cat) return;
+  const count = (customCatData[id]||[]).length;
+  const msg = count > 0
+    ? `Delete "${cat.name}"? This will also remove its ${count} product(s).`
+    : `Delete "${cat.name}"?`;
+  if(!confirm(msg)) return;
+
+  // Remove products from map
+  (customCatData[id]||[]).forEach(p=>{ delete map[p.id]; });
+  delete customCatData[id];
+
+  // Remove from array
+  const idx = customCategories.findIndex(c=>c.id===id);
+  if(idx>-1) customCategories.splice(idx,1);
+
+  // Remove tab button
+  const tabBtn = document.querySelector(`.tabitem[data-catid="${id}"]`);
+  if(tabBtn) tabBtn.remove();
+
+  // Remove page
+  const page = document.getElementById('page-cat-'+id);
+  if(page) page.remove();
+
+  // Remove home section
+  const section = document.getElementById('home-cat-section-'+id);
+  if(section) section.remove();
+
+  // Update dropdowns and list
+  populateCatDropdowns();
+  renderCatList();
+
+  // Switch to home if we were on that tab
+  const homeBtn = document.querySelector('.tabitem');
+  if(homeBtn) switchTab('all', homeBtn);
 }
 
 </script>
@@ -1398,6 +1698,49 @@ function submitEdit(){
       </div>
       <div id="editError" style="color:#c0392b;font-size:.8rem;font-weight:600;display:none;font-family:'Outfit',sans-serif;"></div>
       <button class="edit-submit" onclick="submitEdit()">Save Changes ✦</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- CATEGORY MANAGER MODAL -->
+<div class="catmgr-overlay" id="catMgrOverlay" onclick="catMgrBgClose(event)">
+  <div class="catmgr-modal">
+    <div class="catmgr-header">
+      <div class="catmgr-title">🗂 Manage Categories</div>
+      <button class="catmgr-close" onclick="closeCatMgr()">✕</button>
+    </div>
+    <div class="catmgr-body">
+
+      <!-- EXISTING CATEGORIES -->
+      <div>
+        <div class="cat-list-label">Current Categories</div>
+        <div class="cat-list" id="catList"></div>
+      </div>
+
+      <hr class="catmgr-divider"/>
+
+      <!-- ADD NEW CATEGORY -->
+      <div class="new-cat-form">
+        <div class="new-cat-form-title">✦ Add New Category</div>
+
+        <div class="field">
+          <label>Category Name *</label>
+          <input type="text" id="newCatName" placeholder="e.g. Snacks, Dairy, Personal Care" maxlength="30"/>
+        </div>
+
+        <div class="field">
+          <label>Emoji Icon</label>
+          <div class="emoji-row">
+            <input type="text" class="emoji-input" id="newCatEmoji" placeholder="🛍" maxlength="2"/>
+            <div class="emoji-hint">Pick any emoji to represent<br/>this category in tabs &amp; cards</div>
+          </div>
+        </div>
+
+        <div class="catmgr-error" id="catMgrError"></div>
+        <button class="catmgr-add-btn" onclick="addNewCategory()">Create Category ✦</button>
+      </div>
+
     </div>
   </div>
 </div>
