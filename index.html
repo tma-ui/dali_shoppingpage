@@ -1126,6 +1126,12 @@ function rerenderAll(){
 }
 
 
+// ── FILE PICK HELPER ─────────────────────────────────────────────────
+function triggerFilePick(inputId){
+  const inp = document.getElementById(inputId);
+  if(inp){ inp.value=''; inp.click(); }
+}
+
 // ── ADMIN MODE ───────────────────────────────────────────────────────
 const ADMIN_PASS = 'Dali_aDmiN@';
 let adminMode = false;
@@ -1282,11 +1288,11 @@ function submitEdit(){
       <!-- IMAGE PICKER -->
       <div class="field">
         <label>Product Image</label>
-        <div class="img-picker" id="imgPicker">
-          <input type="file" accept="image/*" onchange="handleImgPick(event)"/>
+        <div class="img-picker" id="imgPicker" onclick="triggerFilePick('addFileInput')">
+          <input type="file" id="addFileInput" accept="image/*" style="display:none" onchange="handleImgPick(event)"/>
           <div class="img-picker-preview" id="imgPreview">
             <img id="imgPreviewImg" src="" alt="preview"/>
-            <button class="img-picker-change" onclick="event.stopPropagation()">Change</button>
+            <button class="img-picker-change" onclick="event.stopPropagation();triggerFilePick('addFileInput')">Change Photo</button>
           </div>
           <div class="img-picker-icon" id="imgPickerIcon">📷</div>
           <div class="img-picker-text" id="imgPickerText">Tap to upload a product photo</div>
@@ -1359,11 +1365,11 @@ function submitEdit(){
     <div class="edit-body">
       <div class="field">
         <label>Product Image</label>
-        <div class="img-picker" id="editImgPicker">
-          <input type="file" accept="image/*" onchange="handleEditImgPick(event)"/>
+        <div class="img-picker" id="editImgPicker" onclick="triggerFilePick('editFileInput')">
+          <input type="file" id="editFileInput" accept="image/*" style="display:none" onchange="handleEditImgPick(event)"/>
           <div class="img-picker-preview" id="editImgPreview">
             <img id="editImgPreviewImg" src="" alt="preview"/>
-            <button class="img-picker-change" onclick="event.stopPropagation()">Change</button>
+            <button class="img-picker-change" onclick="event.stopPropagation();triggerFilePick('editFileInput')">Change Photo</button>
           </div>
           <div class="img-picker-icon" id="editImgIcon">📷</div>
           <div class="img-picker-text" id="editImgText">Tap to change product photo</div>
