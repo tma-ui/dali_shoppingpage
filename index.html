@@ -394,6 +394,132 @@ main{max-width:980px;margin:0 auto;padding:20px 12px 80px;width:100%}
   color:var(--dark);line-height:1.7;font-weight:300;
   word-break:break-word;overflow-wrap:break-word;
 }
+
+/* ── ADD PRODUCT FAB ── */
+.fab{
+  position:fixed;bottom:24px;right:20px;z-index:400;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#b87c00);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 24px rgba(212,150,10,.5);
+  font-size:1.6rem;color:#fff;font-weight:300;
+  transition:transform .2s,box-shadow .2s;
+  font-family:'Outfit',sans-serif;
+}
+.fab:hover{transform:scale(1.1) rotate(90deg);box-shadow:0 10px 32px rgba(212,150,10,.6)}
+.fab:active{transform:scale(.96)}
+
+/* ── ADD PRODUCT MODAL ── */
+.add-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(20,0,40,.7);backdrop-filter:blur(10px);
+  z-index:600;align-items:center;justify-content:center;
+  padding:16px;
+}
+.add-overlay.open{display:flex}
+.add-modal{
+  background:#fff;border-radius:24px;
+  width:100%;max-width:480px;
+  max-height:90vh;overflow-y:auto;overflow-x:hidden;
+  animation:slideup .28s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 20px 60px rgba(44,0,82,.3);
+}
+.add-header{
+  padding:20px 20px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:#fff;z-index:2;
+  border-bottom:1px solid var(--v5);padding-bottom:14px;
+}
+.add-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:700;color:var(--dark);
+}
+.add-close{
+  background:var(--v5);border:none;width:34px;height:34px;
+  border-radius:50%;cursor:pointer;font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--v2);transition:all .18s;flex-shrink:0;
+}
+.add-close:hover{background:var(--v2);color:#fff}
+.add-body{padding:18px 20px 28px;display:flex;flex-direction:column;gap:16px}
+
+/* IMAGE PICKER */
+.img-picker{
+  width:100%;aspect-ratio:16/9;border-radius:16px;
+  border:2px dashed var(--v4);
+  background:var(--v6);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:border-color .2s,background .2s;
+}
+.img-picker:hover{border-color:var(--v2);background:var(--v5)}
+.img-picker input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.img-picker-icon{font-size:2rem;margin-bottom:6px}
+.img-picker-text{font-size:.78rem;color:var(--gray);font-weight:500;text-align:center;padding:0 12px}
+.img-picker-preview{
+  position:absolute;inset:0;
+  display:none;align-items:center;justify-content:center;
+  background:var(--v6);
+}
+.img-picker-preview img{width:100%;height:100%;object-fit:contain}
+.img-picker-preview.show{display:flex}
+.img-picker-change{
+  position:absolute;bottom:8px;right:8px;
+  background:rgba(44,0,82,.7);color:#fff;
+  border:none;border-radius:20px;padding:4px 10px;
+  font-size:.65rem;font-weight:600;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+}
+
+/* FORM FIELDS */
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{
+  font-size:.68rem;font-weight:700;
+  color:var(--gray);text-transform:uppercase;letter-spacing:1px;
+  font-family:'Outfit',sans-serif;
+}
+.field input,.field textarea,.field select{
+  width:100%;border:1.5px solid #e8daf4;border-radius:12px;
+  padding:10px 14px;
+  font-family:'Outfit',sans-serif;font-size:.9rem;
+  color:var(--dark);background:#fff;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  resize:none;
+}
+.field input:focus,.field textarea:focus,.field select:focus{
+  border-color:var(--v2);
+  box-shadow:0 0 0 3px rgba(91,13,138,.1);
+}
+.field textarea{min-height:90px;line-height:1.6}
+.field select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a6a82' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:36px;
+}
+
+/* PRICE ROW */
+.price-row{display:flex;gap:10px}
+.price-row .field{flex:1}
+
+/* SUBMIT */
+.add-submit{
+  width:100%;padding:13px;border-radius:14px;
+  background:linear-gradient(135deg,var(--v2),var(--v3));
+  border:none;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;
+  cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 6px 20px rgba(91,13,138,.3);
+  transition:transform .18s,box-shadow .18s;
+}
+.add-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(91,13,138,.4)}
+.add-submit:active{transform:translateY(0)}
+
+/* NEW product badge */
+.chip.new-badge{background:#fff3e0;color:#e65100}
+
 </style>
 </head>
 <body>
@@ -582,10 +708,13 @@ function bsCard(p){
 }
 
 function prodCard(p){
+  const newBadge = p.isNew ? `<span class="chip new-badge">✦ NEW</span>` : '';
   return `<div class="pc" onclick="openSheet('${p.id}')">
     <div class="pc-pic">${pic(p,'pc')}</div>
     <div class="pc-info">
-      <div class="chip ${p.cat}">${p.cat}</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+        <div class="chip ${p.cat}">${p.cat}</div>${newBadge}
+      </div>
       <div class="pc-name">${p.name}</div>
       <div class="pc-price">₱${p.price.toFixed(2)}</div>
     </div>
@@ -687,6 +816,166 @@ function updatePlaceholder(){
 updatePlaceholder();
 window.addEventListener('resize', updatePlaceholder);
 init();
+
+// ── ADD PRODUCT ─────────────────────────────────────────────────────
+let newImgData = null;
+
+function openAddModal(){
+  document.getElementById('addOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeAddModal(){
+  document.getElementById('addOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  resetAddForm();
+}
+function addBgClose(e){
+  if(e.target===document.getElementById('addOverlay')) closeAddModal();
+}
+
+function handleImgPick(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    newImgData = ev.target.result;
+    document.getElementById('imgPreviewImg').src = newImgData;
+    document.getElementById('imgPreview').classList.add('show');
+    document.getElementById('imgPickerIcon').style.display='none';
+    document.getElementById('imgPickerText').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetAddForm(){
+  newImgData = null;
+  document.getElementById('newName').value='';
+  document.getElementById('newCat').value='';
+  document.getElementById('newPrice').value='';
+  document.getElementById('newDesc').value='';
+  document.getElementById('imgPreview').classList.remove('show');
+  document.getElementById('imgPickerIcon').style.display='';
+  document.getElementById('imgPickerText').style.display='';
+  document.getElementById('addError').style.display='none';
+}
+
+function showAddError(msg){
+  const el = document.getElementById('addError');
+  el.textContent = msg;
+  el.style.display='block';
+}
+
+function submitNewProduct(){
+  const name  = document.getElementById('newName').value.trim();
+  const cat   = document.getElementById('newCat').value;
+  const price = parseFloat(document.getElementById('newPrice').value);
+  const desc  = document.getElementById('newDesc').value.trim();
+
+  if(!name){ showAddError('⚠ Please enter a product name.'); return; }
+  if(!cat){  showAddError('⚠ Please select a category.'); return; }
+  if(!price || price <= 0){ showAddError('⚠ Please enter a valid price.'); return; }
+
+  document.getElementById('addError').style.display='none';
+
+  // Build new product object
+  const id = 'custom-' + Date.now();
+  const emojis = {Beverages:'🥤', Grocery:'🛒', Frozen:'❄️'};
+  const newProduct = {
+    id, name, price, cat,
+    em: emojis[cat] || '🛍️',
+    img: newImgData || null,
+    desc: desc || 'A great new product available at DALI Everyday Grocery.',
+    isNew: true
+  };
+
+  // Add to the right array + map
+  if(cat==='Beverages') beverages.unshift(newProduct);
+  else if(cat==='Grocery') grocery.unshift(newProduct);
+  else if(cat==='Frozen') frozen.unshift(newProduct);
+  map[id] = newProduct;
+
+  // Re-render all affected grids
+  render('home-bev',  beverages, prodCard);
+  render('home-groc', grocery,   prodCard);
+  render('home-frz',  frozen,    prodCard);
+  render('g-bev',     beverages, prodCard);
+  render('g-groc',    grocery,   prodCard);
+  render('g-frz',     frozen,    prodCard);
+
+  closeAddModal();
+
+  // Navigate to the right tab to show the new product
+  const tabMap = {Beverages:'beverages', Grocery:'grocery', Frozen:'frozen'};
+  const tabBtn = document.querySelector(`.tabitem[onclick*="'${tabMap[cat]}'"]`);
+  if(tabBtn) switchTab(tabMap[cat], tabBtn);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
 </script>
+
+<!-- FAB -->
+<button class="fab" onclick="openAddModal()" title="Add Product">+</button>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="add-overlay" id="addOverlay" onclick="addBgClose(event)">
+  <div class="add-modal">
+    <div class="add-header">
+      <div class="add-title">✦ Add New Product</div>
+      <button class="add-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="add-body">
+
+      <!-- IMAGE PICKER -->
+      <div class="field">
+        <label>Product Image</label>
+        <div class="img-picker" id="imgPicker">
+          <input type="file" accept="image/*" onchange="handleImgPick(event)"/>
+          <div class="img-picker-preview" id="imgPreview">
+            <img id="imgPreviewImg" src="" alt="preview"/>
+            <button class="img-picker-change" onclick="event.stopPropagation()">Change</button>
+          </div>
+          <div class="img-picker-icon" id="imgPickerIcon">📷</div>
+          <div class="img-picker-text" id="imgPickerText">Tap to upload a product photo</div>
+        </div>
+      </div>
+
+      <!-- NAME -->
+      <div class="field">
+        <label>Product Name *</label>
+        <input type="text" id="newName" placeholder="e.g. Calamansi Juice" maxlength="60"/>
+      </div>
+
+      <!-- CATEGORY -->
+      <div class="field">
+        <label>Category *</label>
+        <select id="newCat">
+          <option value="">— Select Category —</option>
+          <option value="Beverages">💧 Beverages</option>
+          <option value="Grocery">🛒 Grocery</option>
+          <option value="Frozen">❄️ Frozen</option>
+        </select>
+      </div>
+
+      <!-- PRICE -->
+      <div class="field">
+        <label>Price (₱) *</label>
+        <input type="number" id="newPrice" placeholder="0.00" min="0" step="0.01"/>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="field">
+        <label>Description</label>
+        <textarea id="newDesc" placeholder="Describe the product — flavor, size, what makes it special…"></textarea>
+      </div>
+
+      <!-- ERROR -->
+      <div id="addError" style="color:#c0392b;font-size:.8rem;font-weight:600;display:none;font-family:'Outfit',sans-serif;"></div>
+
+      <!-- SUBMIT -->
+      <button class="add-submit" onclick="submitNewProduct()">Add to Store ✦</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
