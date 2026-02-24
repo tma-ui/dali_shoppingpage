@@ -520,6 +520,172 @@ main{max-width:980px;margin:0 auto;padding:20px 12px 80px;width:100%}
 /* NEW product badge */
 .chip.new-badge{background:#fff3e0;color:#e65100}
 
+
+/* ── REMOVE BUTTON ON CARD ── */
+.pc-remove{
+  position:absolute;top:7px;right:7px;z-index:5;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(192,57,43,.85);border:none;
+  color:#fff;font-size:.75rem;cursor:pointer;
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  transition:all .18s;flex-shrink:0;
+  line-height:1;
+}
+.pc:hover .pc-remove{display:flex}
+.pc-remove:hover{background:rgba(169,50,38,1);transform:scale(1.12)}
+.pc{position:relative}
+
+/* custom product glow */
+.pc.is-custom{border-color:rgba(212,150,10,.3)}
+.chip.Best\ Sellers{background:#fff3e0;color:#b85c00}
+
+
+/* ── ADMIN SETTINGS ICON ── */
+.settings-btn{
+  background:rgba(255,255,255,.1);border:1px solid rgba(212,150,10,.35);
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;color:rgba(255,255,255,.8);
+  font-size:1.1rem;
+}
+.settings-btn:hover{background:rgba(212,150,10,.25);border-color:rgba(212,150,10,.7);color:#fff}
+.settings-btn.active{background:rgba(212,150,10,.35);border-color:var(--gold2);color:var(--gold2)}
+
+/* ── PASSWORD GATE MODAL ── */
+.pw-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(20,0,40,.75);backdrop-filter:blur(12px);
+  z-index:700;align-items:center;justify-content:center;padding:20px;
+}
+.pw-overlay.open{display:flex}
+.pw-modal{
+  background:#fff;border-radius:24px;
+  width:100%;max-width:360px;
+  padding:32px 28px 28px;
+  box-shadow:0 24px 64px rgba(44,0,82,.4);
+  animation:slideup .28s cubic-bezier(.22,1,.36,1);
+  text-align:center;
+}
+.pw-icon{font-size:2.5rem;margin-bottom:10px}
+.pw-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:700;color:var(--dark);margin-bottom:4px;
+}
+.pw-sub{font-size:.8rem;color:var(--gray);margin-bottom:22px;font-family:'Outfit',sans-serif}
+.pw-input-wrap{position:relative;margin-bottom:14px}
+.pw-input-wrap input{
+  width:100%;border:1.5px solid #e8daf4;border-radius:12px;
+  padding:11px 42px 11px 16px;
+  font-family:'Outfit',sans-serif;font-size:.95rem;
+  color:var(--dark);outline:none;letter-spacing:2px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.pw-input-wrap input:focus{border-color:var(--v2);box-shadow:0 0 0 3px rgba(91,13,138,.1)}
+.pw-toggle{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--gray);
+  font-size:.95rem;padding:2px;
+}
+.pw-error{color:#c0392b;font-size:.78rem;font-weight:600;margin-bottom:12px;display:none;font-family:'Outfit',sans-serif}
+.pw-btn{
+  width:100%;padding:12px;border-radius:12px;
+  background:linear-gradient(135deg,var(--v2),var(--v3));
+  border:none;color:#fff;font-family:'Outfit',sans-serif;
+  font-size:.95rem;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 20px rgba(91,13,138,.3);
+  transition:transform .18s,box-shadow .18s;margin-bottom:10px;
+}
+.pw-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(91,13,138,.4)}
+.pw-cancel{
+  background:none;border:none;color:var(--gray);
+  font-family:'Outfit',sans-serif;font-size:.82rem;
+  cursor:pointer;padding:4px;text-decoration:underline;
+}
+
+/* ── ADMIN MODE INDICATOR ── */
+.admin-bar{
+  display:none;
+  background:linear-gradient(135deg,rgba(212,150,10,.15),rgba(212,150,10,.08));
+  border-bottom:1px solid rgba(212,150,10,.3);
+  padding:6px 16px;text-align:center;
+  font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;
+  color:rgba(212,150,10,.9);letter-spacing:1.5px;text-transform:uppercase;
+}
+.admin-bar.show{display:flex;align-items:center;justify-content:center;gap:8px}
+.admin-bar-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.admin-logout{
+  background:rgba(212,150,10,.2);border:1px solid rgba(212,150,10,.4);
+  color:rgba(212,150,10,.9);border-radius:20px;padding:2px 10px;
+  font-size:.65rem;font-weight:700;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all .18s;margin-left:6px;
+}
+.admin-logout:hover{background:rgba(212,150,10,.35)}
+
+/* ── CARD ADMIN CONTROLS ── */
+.card-admin{
+  position:absolute;top:7px;right:7px;z-index:5;
+  display:none;gap:5px;
+}
+.admin-mode .card-admin{display:flex}
+.card-btn{
+  width:28px;height:28px;border-radius:50%;border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:.72rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);transition:all .18s;flex-shrink:0;
+}
+.card-btn:hover{transform:scale(1.12)}
+.btn-edit{background:rgba(41,128,185,.88);color:#fff}
+.btn-edit:hover{background:rgba(31,97,141,1)}
+.btn-del{background:rgba(192,57,43,.88);color:#fff}
+.btn-del:hover{background:rgba(152,45,34,1)}
+
+/* best seller card admin */
+.bsc{position:relative}
+.bsc .card-admin{top:8px;right:8px}
+
+/* ── EDIT MODAL ── */
+.edit-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(20,0,40,.7);backdrop-filter:blur(10px);
+  z-index:650;align-items:center;justify-content:center;padding:16px;
+}
+.edit-overlay.open{display:flex}
+.edit-modal{
+  background:#fff;border-radius:24px;
+  width:100%;max-width:480px;max-height:90vh;
+  overflow-y:auto;overflow-x:hidden;
+  animation:slideup .28s cubic-bezier(.22,1,.36,1);
+  box-shadow:0 20px 60px rgba(44,0,82,.3);
+}
+.edit-header{
+  padding:20px 20px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:#fff;z-index:2;
+  border-bottom:1px solid var(--v5);
+}
+.edit-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--dark)}
+.edit-close{
+  background:var(--v5);border:none;width:34px;height:34px;border-radius:50%;
+  cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;
+  color:var(--v2);transition:all .18s;flex-shrink:0;
+}
+.edit-close:hover{background:var(--v2);color:#fff}
+.edit-body{padding:18px 20px 28px;display:flex;flex-direction:column;gap:15px}
+.edit-submit{
+  width:100%;padding:13px;border-radius:14px;
+  background:linear-gradient(135deg,var(--v2),var(--v3));
+  border:none;color:#fff;font-family:'Outfit',sans-serif;
+  font-size:.95rem;font-weight:700;cursor:pointer;
+  box-shadow:0 6px 20px rgba(91,13,138,.3);
+  transition:transform .18s,box-shadow .18s;
+}
+.edit-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(91,13,138,.4)}
+
+/* hide old pc-remove for non-admin */
+.pc-remove{display:none!important}
+
 </style>
 </head>
 <body>
@@ -537,8 +703,14 @@ main{max-width:980px;margin:0 auto;padding:20px 12px 80px;width:100%}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       <input type="text" id="searchInput" placeholder="Search products…" oninput="doSearch()"/>
     </div>
+    <button class="settings-btn" id="settingsBtn" onclick="openPwModal()" title="Admin Settings">⚙</button>
   </div>
 </nav>
+<div class="admin-bar" id="adminBar">
+  <span class="admin-bar-dot"></span>
+  Admin Mode Active
+  <button class="admin-logout" onclick="logoutAdmin()">Log Out</button>
+</div>
 
 <div class="hero" id="hero">
   <div class="hero-deco"></div>
@@ -697,8 +869,12 @@ function pic(p,size){
 }
 
 function bsCard(p){
-  return `<div class="bsc" onclick="openSheet('${p.id}')">
-    <div class="bsc-rank${p.rank<=3?' hi':''}">${p.rank}</div>
+  return `<div class="bsc${p.isNew?' is-custom':''}" onclick="openSheet('${p.id}')" style="position:relative">
+    <div class="card-admin">
+      <button class="card-btn btn-edit" title="Edit" onclick="event.stopPropagation();openEditModal('${p.id}')">✏</button>
+      <button class="card-btn btn-del"  title="Remove" onclick="event.stopPropagation();removeProduct('${p.id}')">✕</button>
+    </div>
+    <div class="bsc-rank${p.rank&&p.rank<=3?' hi':''}">${p.rank||'★'}</div>
     <div class="bsc-pic">${pic(p,'bs')}</div>
     <div class="bsc-info">
       <div class="bsc-name">${p.name}</div>
@@ -709,7 +885,11 @@ function bsCard(p){
 
 function prodCard(p){
   const newBadge = p.isNew ? `<span class="chip new-badge">✦ NEW</span>` : '';
-  return `<div class="pc" onclick="openSheet('${p.id}')">
+  return `<div class="pc${p.isNew?' is-custom':''}" onclick="openSheet('${p.id}')">
+    <div class="card-admin">
+      <button class="card-btn btn-edit" title="Edit" onclick="event.stopPropagation();openEditModal('${p.id}')">✏</button>
+      <button class="card-btn btn-del"  title="Remove" onclick="event.stopPropagation();removeProduct('${p.id}')">✕</button>
+    </div>
     <div class="pc-pic">${pic(p,'pc')}</div>
     <div class="pc-info">
       <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
@@ -888,27 +1068,201 @@ function submitNewProduct(){
     isNew: true
   };
 
+  // Give best sellers a rank label
+  if(cat==='Best Sellers'){
+    newProduct.rank = null; // no number rank, shows ★
+    newProduct.why = desc || 'A customer favourite at DALI Everyday Grocery!';
+  }
+
   // Add to the right array + map
   if(cat==='Beverages') beverages.unshift(newProduct);
   else if(cat==='Grocery') grocery.unshift(newProduct);
   else if(cat==='Frozen') frozen.unshift(newProduct);
+  else if(cat==='Best Sellers') bestSellers.unshift(newProduct);
   map[id] = newProduct;
 
-  // Re-render all affected grids
-  render('home-bev',  beverages, prodCard);
-  render('home-groc', grocery,   prodCard);
-  render('home-frz',  frozen,    prodCard);
-  render('g-bev',     beverages, prodCard);
-  render('g-groc',    grocery,   prodCard);
-  render('g-frz',     frozen,    prodCard);
-
+  rerenderAll();
   closeAddModal();
 
-  // Navigate to the right tab to show the new product
-  const tabMap = {Beverages:'beverages', Grocery:'grocery', Frozen:'frozen'};
+  // Navigate to the right tab
+  const tabMap = {'Beverages':'beverages','Grocery':'grocery','Frozen':'frozen','Best Sellers':'bestseller'};
   const tabBtn = document.querySelector(`.tabitem[onclick*="'${tabMap[cat]}'"]`);
   if(tabBtn) switchTab(tabMap[cat], tabBtn);
   window.scrollTo({top:0, behavior:'smooth'});
+}
+
+
+// ── REMOVE PRODUCT ───────────────────────────────────────────────────
+function removeProduct(id){
+  if(!confirm('Remove this product from the store?')) return;
+  const p = map[id];
+  if(!p) return;
+
+  // Remove from whichever array it lives in
+  const arrays = {
+    'Beverages': beverages,
+    'Grocery': grocery,
+    'Frozen': frozen,
+    'Best Sellers': bestSellers
+  };
+  const arr = arrays[p.cat];
+  if(arr){
+    const idx = arr.findIndex(x=>x.id===id);
+    if(idx>-1) arr.splice(idx,1);
+  }
+  delete map[id];
+  rerenderAll();
+}
+
+function rerenderAll(){
+  render('home-bs',  bestSellers, bsCard);
+  render('home-bev', beverages,   prodCard);
+  render('home-groc',grocery,     prodCard);
+  render('home-frz', frozen,      prodCard);
+  render('g-bs',     bestSellers, prodCard);
+  render('g-bev',    beverages,   prodCard);
+  render('g-groc',   grocery,     prodCard);
+  render('g-frz',    frozen,      prodCard);
+}
+
+
+// ── ADMIN MODE ───────────────────────────────────────────────────────
+const ADMIN_PASS = 'Dali_aDmiN@';
+let adminMode = false;
+let editingId  = null;
+let editImgData = null;
+
+function openPwModal(){
+  if(adminMode){ logoutAdmin(); return; }
+  document.getElementById('pwOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('pwInput').focus(),200);
+}
+function closePwModal(){
+  document.getElementById('pwOverlay').classList.remove('open');
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').style.display='none';
+  if(!adminMode) document.body.style.overflow='';
+}
+function pwBgClose(e){ if(e.target===document.getElementById('pwOverlay')) closePwModal(); }
+function togglePwVisibility(){
+  const inp = document.getElementById('pwInput');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+function checkPassword(){
+  const val = document.getElementById('pwInput').value;
+  if(val === ADMIN_PASS){
+    adminMode = true;
+    document.body.classList.add('admin-mode');
+    document.getElementById('adminBar').classList.add('show');
+    document.getElementById('settingsBtn').classList.add('active');
+    document.getElementById('settingsBtn').textContent='🔓';
+    closePwModal();
+    document.body.style.overflow='';
+  } else {
+    document.getElementById('pwError').style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+  }
+}
+function logoutAdmin(){
+  adminMode = false;
+  document.body.classList.remove('admin-mode');
+  document.getElementById('adminBar').classList.remove('show');
+  document.getElementById('settingsBtn').classList.remove('active');
+  document.getElementById('settingsBtn').textContent='⚙';
+}
+
+// ── REMOVE (all products) ─────────────────────────────────────────────
+function removeProduct(id){
+  if(!adminMode) return;
+  if(!confirm('Remove this product from the store?')) return;
+  const p = map[id]; if(!p) return;
+  const arrays = {'Beverages':beverages,'Grocery':grocery,'Frozen':frozen,'Best Sellers':bestSellers};
+  const arr = arrays[p.cat];
+  if(arr){ const i=arr.findIndex(x=>x.id===id); if(i>-1) arr.splice(i,1); }
+  delete map[id];
+  rerenderAll();
+}
+
+// ── EDIT ──────────────────────────────────────────────────────────────
+function openEditModal(id){
+  if(!adminMode) return;
+  const p = map[id]; if(!p) return;
+  editingId   = id;
+  editImgData = null;
+
+  document.getElementById('editName').value  = p.name;
+  document.getElementById('editCat').value   = p.cat;
+  document.getElementById('editPrice').value = p.price;
+  document.getElementById('editDesc').value  = p.desc||'';
+
+  const preview = document.getElementById('editImgPreview');
+  const icon    = document.getElementById('editImgIcon');
+  const txt     = document.getElementById('editImgText');
+  if(p.img){
+    document.getElementById('editImgPreviewImg').src = p.img;
+    preview.classList.add('show');
+    icon.style.display='none'; txt.style.display='none';
+  } else {
+    preview.classList.remove('show');
+    icon.style.display=''; txt.style.display='';
+  }
+
+  document.getElementById('editError').style.display='none';
+  document.getElementById('editOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeEditModal(){
+  document.getElementById('editOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  editingId=null; editImgData=null;
+}
+function editBgClose(e){ if(e.target===document.getElementById('editOverlay')) closeEditModal(); }
+function handleEditImgPick(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    editImgData=ev.target.result;
+    document.getElementById('editImgPreviewImg').src=editImgData;
+    document.getElementById('editImgPreview').classList.add('show');
+    document.getElementById('editImgIcon').style.display='none';
+    document.getElementById('editImgText').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+function submitEdit(){
+  const name  = document.getElementById('editName').value.trim();
+  const cat   = document.getElementById('editCat').value;
+  const price = parseFloat(document.getElementById('editPrice').value);
+  const desc  = document.getElementById('editDesc').value.trim();
+  const errEl = document.getElementById('editError');
+
+  if(!name){ errEl.textContent='⚠ Product name required.'; errEl.style.display='block'; return; }
+  if(!price||price<=0){ errEl.textContent='⚠ Valid price required.'; errEl.style.display='block'; return; }
+  errEl.style.display='none';
+
+  const p = map[editingId]; if(!p) return;
+  const oldCat = p.cat;
+
+  // If category changed, move between arrays
+  if(oldCat !== cat){
+    const arrays = {'Beverages':beverages,'Grocery':grocery,'Frozen':frozen,'Best Sellers':bestSellers};
+    const oldArr = arrays[oldCat];
+    if(oldArr){ const i=oldArr.findIndex(x=>x.id===editingId); if(i>-1) oldArr.splice(i,1); }
+    const newArr = arrays[cat];
+    if(newArr) newArr.unshift(p);
+  }
+
+  // Update fields
+  p.name  = name;
+  p.cat   = cat;
+  p.price = price;
+  p.desc  = desc;
+  if(editImgData) p.img = editImgData;
+
+  rerenderAll();
+  closeEditModal();
 }
 
 </script>
@@ -953,6 +1307,7 @@ function submitNewProduct(){
           <option value="Beverages">💧 Beverages</option>
           <option value="Grocery">🛒 Grocery</option>
           <option value="Frozen">❄️ Frozen</option>
+          <option value="Best Sellers">🏆 Best Sellers</option>
         </select>
       </div>
 
@@ -973,6 +1328,70 @@ function submitNewProduct(){
 
       <!-- SUBMIT -->
       <button class="add-submit" onclick="submitNewProduct()">Add to Store ✦</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- PASSWORD MODAL -->
+<div class="pw-overlay" id="pwOverlay" onclick="pwBgClose(event)">
+  <div class="pw-modal">
+    <div class="pw-icon">🔐</div>
+    <div class="pw-title">Admin Access</div>
+    <div class="pw-sub">Enter the admin password to manage products</div>
+    <div class="pw-input-wrap">
+      <input type="password" id="pwInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()"/>
+      <button class="pw-toggle" onclick="togglePwVisibility()" id="pwToggle">👁</button>
+    </div>
+    <div class="pw-error" id="pwError">Incorrect password. Try again.</div>
+    <button class="pw-btn" onclick="checkPassword()">Unlock Admin</button>
+    <button class="pw-cancel" onclick="closePwModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- EDIT PRODUCT MODAL -->
+<div class="edit-overlay" id="editOverlay" onclick="editBgClose(event)">
+  <div class="edit-modal">
+    <div class="edit-header">
+      <div class="edit-title">✏️ Edit Product</div>
+      <button class="edit-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="edit-body">
+      <div class="field">
+        <label>Product Image</label>
+        <div class="img-picker" id="editImgPicker">
+          <input type="file" accept="image/*" onchange="handleEditImgPick(event)"/>
+          <div class="img-picker-preview" id="editImgPreview">
+            <img id="editImgPreviewImg" src="" alt="preview"/>
+            <button class="img-picker-change" onclick="event.stopPropagation()">Change</button>
+          </div>
+          <div class="img-picker-icon" id="editImgIcon">📷</div>
+          <div class="img-picker-text" id="editImgText">Tap to change product photo</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Product Name *</label>
+        <input type="text" id="editName" placeholder="Product name" maxlength="60"/>
+      </div>
+      <div class="field">
+        <label>Category *</label>
+        <select id="editCat">
+          <option value="Beverages">💧 Beverages</option>
+          <option value="Grocery">🛒 Grocery</option>
+          <option value="Frozen">❄️ Frozen</option>
+          <option value="Best Sellers">🏆 Best Sellers</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Price (₱) *</label>
+        <input type="number" id="editPrice" min="0" step="0.01"/>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="editDesc" style="min-height:90px"></textarea>
+      </div>
+      <div id="editError" style="color:#c0392b;font-size:.8rem;font-weight:600;display:none;font-family:'Outfit',sans-serif;"></div>
+      <button class="edit-submit" onclick="submitEdit()">Save Changes ✦</button>
     </div>
   </div>
 </div>
